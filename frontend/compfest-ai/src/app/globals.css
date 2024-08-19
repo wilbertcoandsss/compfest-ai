@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'RestartHard';
+  src: url('../lib/assets/fonts/RestartHard-Regular.ttf') format('truetype');
+  font-weight: unset;
+}
+
+
+@font-face {
+  font-family: 'RestartHard';
+  src: url('../lib/assets/fonts/RestartHard-Bold.ttf') format('truetype');
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'RestartHard';
+  src: url('../lib/assets/fonts/RestartHard-Light.ttf') format('truetype');
+  font-weight: lighter;
+}
+
+@font-face {
+  font-family: 'RestartHard';
+  src: url('../lib/assets/fonts/RestartHard-Medium.ttf') format('truetype');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'RestartHard';
+  src: url('../lib/assets/fonts/RestartHard-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+}
+
+/* *{
+  font-family: 'RestartHard';
+  font-weight: unset;
+} */
+
+/* @font-face {
+  font-family: 'MyFont';
+  src: url('/fonts/MyFont-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'MyFont';
+  src: url('/fonts/MyFont-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+} */
+
+/* :root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+} */
