@@ -46,3 +46,6 @@ curl http://localhost:3002/michi
     "response":"i love michi"
 }
 ```
+
+**Frontend**: http://localhost:3001/
+**Backend**: http://localhost:3002/
