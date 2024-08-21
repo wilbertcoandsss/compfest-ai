@@ -1,12 +1,9 @@
-import Navbar from "@/lib/components/navbar";
-import Image from "next/image";
-import Link from "next/link";
-
+import { ManageIndexButton } from "./_component/manage-index-button";
 export default function Home() {
   return (
     <>
-      <Navbar />
-      <h1>Awikwok</h1>
+      <h1>Home Page</h1>
+      <ManageIndexButton />
     </>
   );
 }
