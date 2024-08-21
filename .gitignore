@@ -1,0 +1,56 @@
+# Ignore environment variable files
+*.env
+
+# Ignore Python cache directories
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore log files and temporary files
+*.log
+*.tmp
+
+# Ignore other sensitive or generated files
+*.swp
+*.swo
+*~
+*.bak
+*.old
+
+# Ignore package manager lock files (optional)
+# Uncomment if you want to ignore lock files
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# Ignore node_modules and build directories (commonly used in frontend projects)
+node_modules/
+dist/
+build/
+
+# Ignore virtual environment directories
+venv/
+.env/
+.venv/
+
+# Ignore Docker-related files (optional)
+# Uncomment if you want to ignore Docker files
+# Dockerfile
+# docker-compose.yml
+
+# Ignore database files
+*.sqlite3
+*.db
+
+# Ignore coverage reports and test results
+coverage/
+*.cover
+*.lcov
+
+# Ignore backups and archives
+*.zip
+*.tar.gz
+*.rar
