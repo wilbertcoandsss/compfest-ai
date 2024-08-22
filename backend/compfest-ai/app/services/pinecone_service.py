@@ -1,5 +1,5 @@
 from pinecone import ServerlessSpec
-from flask import current_app, jsonify, Blueprint, request
+from flask import current_app as app, jsonify, Blueprint, request
 from enum import Enum
 from . import embeddings_service
 from . import pc
@@ -8,10 +8,14 @@ class ManageIndexEnum(Enum):
     CREATE = "create"
     DELETE = "delete"
 
+
+"""
+managing pinecone indexes, currently only using freakynus.
+ensure this shit exists
+"""
 def manage_index(mode: ManageIndexEnum):
     if mode == ManageIndexEnum.CREATE.value:
-        print(current_app.config['PINECONE_INDEX_NAME'])
-        index_name = current_app.config['PINECONE_INDEX_NAME']
+        index_name = app.config['PINECONE_INDEX_NAME']
         if not index_name:
             return "Index name not provided", 400
         if index_name in pc.list_indexes().names():
@@ -19,17 +23,18 @@ def manage_index(mode: ManageIndexEnum):
 
         pc.create_index(
             name=index_name,
-            dimension=current_app.config['PINECONE_DIMENSIONS'],
-            metric=current_app.config['PINECONE_SIMILARITY_METRICS'],
+            dimension=app.config['PINECONE_DIMENSIONS'],
+            metric=app.config['PINECONE_SIMILARITY_METRICS'],
             spec=ServerlessSpec(
-                cloud=current_app.config['PINECONE_CLOUD_PROVIDER'],
-                region=current_app.config['PINECONE_REGION']
-            )
+                cloud=app.config['PINECONE_CLOUD_PROVIDER'],
+                region=app.config['PINECONE_REGION']
+            ),
+            deletion_protection=app.config['PINECONE_DELETION_PROTECTION']
         )
         return "Index created successfully", 201
 
     elif mode == ManageIndexEnum.DELETE.value:
-        index_name = current_app.config['PINECONE_INDEX_NAME']
+        index_name = app.config['PINECONE_INDEX_NAME']
         if not index_name:
             return "Index name not provided", 400
         if index_name not in pc.list_indexes().names():
@@ -40,3 +45,34 @@ def manage_index(mode: ManageIndexEnum):
 
     else:
         return "Invalid action", 400
+
+
+"""
+def embed_and_upload_text(input: str, word: str, index_name: str):
+    if index_name != app.config['PINECONE_INDEX_NAME']:
+        return "Index name invalid", 400
+    
+    embeddings = embeddings_service.generate_embeddings(input, word)
+
+    embedding_vector = embeddings.cpu().numpy().tolist()
+    
+    upsert_data = [(f"{input}-{word}", embedding_vector, {"text": input, "word": word})]
+    index = pc.Index(index_name)
+    index.upsert(vectors=upsert_data)
+
+    return "Embedding successfully uploaded", 200
+"""
+
+def embed_and_upload_text(input: str, index_name: str, method="cls"):
+    if index_name != app.config['PINECONE_INDEX_NAME']:
+        return "Index name invalid", 400
+    
+    embeddings = embeddings_service.generate_embeddings(input, method)
+
+    embedding_vector = embeddings.cpu().numpy().tolist()
+    
+    upsert_data = [(f"{input[:50]}", embedding_vector, {"text": input})]
+    index = pc.Index(index_name)
+    index.upsert(vectors=upsert_data)
+
+    return "Embedding successfully uploaded", 200

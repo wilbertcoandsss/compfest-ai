@@ -6,4 +6,7 @@ def pinecone_init():
         api_key=os.getenv('PINECONE_API_KEY')
     )
 
+# make sure index is available
 pc = pinecone_init()
+
+

@@ -1,8 +1,7 @@
 from app.model.roberta_model import Roberta
-from flask import current_app
 
 embedder = Roberta()
 
-def get_embeddings(input:str):
-    result = embedder.generate_embeddings(input) 
+def generate_embeddings(input:str, word:str):
+    result = embedder.generate_embeddings(input, word) 
     return result
