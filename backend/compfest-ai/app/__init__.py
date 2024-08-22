@@ -3,16 +3,11 @@ from flask import Flask
 from flask_cors import CORS
 
 
-def create_app():
+def create_app(AppConfig):
     
     app = Flask(__name__)
 
-    if os.environ.get('FLASK_ENV')  == "production":
-        from .config import ProductionConfig
-        app.config.from_object(ProductionConfig)
-    elif os.environ.get('FLASK_ENV')  == "development":
-        from .config import DevelopmentConfig
-        app.config.from_object(DevelopmentConfig)
+    app.config.from_object(AppConfig)
 
     CORS(app)
 

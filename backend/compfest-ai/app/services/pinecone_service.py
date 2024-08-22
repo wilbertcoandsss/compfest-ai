@@ -1,22 +1,16 @@
-from pinecone.grpc import PineconeGRPC as Pinecone
 from pinecone import ServerlessSpec
 from flask import current_app, jsonify, Blueprint, request
 from enum import Enum
 from . import embeddings_service
+from . import pc
 
 class ManageIndexEnum(Enum):
     CREATE = "create"
     DELETE = "delete"
 
-def initialize_pinecone():
-    return Pinecone(
-        api_key=current_app.config['PINECONE_API_KEY']
-    )
-
-def manage_index(mode: str):
-    pc = initialize_pinecone()
-    
+def manage_index(mode: ManageIndexEnum):
     if mode == ManageIndexEnum.CREATE.value:
+        print(current_app.config['PINECONE_INDEX_NAME'])
         index_name = current_app.config['PINECONE_INDEX_NAME']
         if not index_name:
             return "Index name not provided", 400
@@ -26,7 +20,7 @@ def manage_index(mode: str):
         pc.create_index(
             name=index_name,
             dimension=current_app.config['PINECONE_DIMENSIONS'],
-            metric=current_app.config['PINECONE_SIMILARITY_METRIC'],
+            metric=current_app.config['PINECONE_SIMILARITY_METRICS'],
             spec=ServerlessSpec(
                 cloud=current_app.config['PINECONE_CLOUD_PROVIDER'],
                 region=current_app.config['PINECONE_REGION']
@@ -38,7 +32,7 @@ def manage_index(mode: str):
         index_name = current_app.config['PINECONE_INDEX_NAME']
         if not index_name:
             return "Index name not provided", 400
-        if index_name not in pc.list_indexes().names:
+        if index_name not in pc.list_indexes().names():
             return "Index does not exist", 400
 
         pc.delete_index(index_name)

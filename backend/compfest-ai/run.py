@@ -2,10 +2,23 @@ import os
 from app import create_app
 from dotenv import load_dotenv
 
-env_file = '.env.development' if os.getenv('FLASK_ENV') == 'development' else '.env.production'
-load_dotenv(env_file)
+env = os.getenv('FLASK_ENV', 'development')
+dotenv_path = f'.env.{env}'
 
-app = create_app()
+load_dotenv(dotenv_path)
+
+from app.config import DevelopmentConfig, ProductionConfig, Config
+
+config_mapping = {
+    'development': DevelopmentConfig,
+    'production': ProductionConfig,
+}
+
+AppConfig = config_mapping.get(env, Config)
+
+port = AppConfig.PORT
+
+app = create_app(AppConfig)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port = port)
