@@ -13,30 +13,39 @@ docker rmi [image-name]
 
 # Quickstart
 
+## Development
+**Frontend**
+```
+cd frontend/compfest-ai/
+npm i
+npm run dev
+```
+**Backend**
+```
+cd backend/compfest-ai/
+pip install -r requirements.txt
+python preload.py
+python run.py
+```
+
+## Deployment
 **Ensure you have docker installed**
 
+**Frontend**
 ```
 cd frontend/compfest-ai/
 docker build . --tag compfest-ai-fe-next
 docker run -d --name compfest-ai-fe -p 3001:3000 compfest-ai-fe-next
-
-
-cd ../../
+```
+**Backend**
+```
 cd backend/compfest-ai/
 docker build . --tag compfest-ai-be-flask
 docker run -d --name compfest-ai-be -p 3002:3000 compfest-ai-be-flask
 ```
 
-### Then see all processes
-
 ```
-docker ps
-```
-
-### Test backend
-
-```
-curl http://localhost:3002/michi/hello
+curl http://localhost:3002/michi/
 ```
 
 **Output:**

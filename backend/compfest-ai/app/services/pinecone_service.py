@@ -2,6 +2,7 @@ from pinecone.grpc import PineconeGRPC as Pinecone
 from pinecone import ServerlessSpec
 from flask import current_app, jsonify, Blueprint, request
 from enum import Enum
+from . import embeddings_service
 
 class ManageIndexEnum(Enum):
     CREATE = "create"
