@@ -23,6 +23,9 @@ npm run dev
 **Backend**
 ```
 cd backend/compfest-ai/
+python -m venv venv
+// MacOS, google if Windows
+source venv/bin/activate // deactivate venv: conda deactivate (if using conda)
 pip install -r requirements.txt
 python preload.py
 python run.py
