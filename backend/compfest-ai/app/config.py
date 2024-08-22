@@ -17,7 +17,9 @@ class Config(object):
     PINECONE_TOP_K = 5
     PINECONE_INCLUDE_VALUES = False
     PINECONE_METADATA = True
-    
+
+    """ Model configs """
+    EMBEDDING_MODEL="cardiffnlp/twitter-roberta-base"
     
     
 class ProductionConfig(Config):
