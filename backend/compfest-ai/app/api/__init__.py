@@ -1,5 +1,7 @@
 from flask import Blueprint
 
-api_blueprint = Blueprint('api', __name__)
+michi_blueprint = Blueprint('michi', __name__, url_prefix='/michi')
+pinecone_blueprint = Blueprint('pinecone', __name__, url_prefix='/pinecone')
 
-from . import routes
+from . import michi
+from . import pinecone

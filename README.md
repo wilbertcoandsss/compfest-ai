@@ -33,10 +33,10 @@ docker run -d --name compfest-ai-be -p 3002:3000 compfest-ai-be-flask
 docker ps
 ```
 
-### To confirm running
+### Test backend
 
 ```
-curl http://localhost:3002/michi
+curl http://localhost:3002/michi/hello
 ```
 
 **Output:**
@@ -46,6 +46,14 @@ curl http://localhost:3002/michi
     "response":"i love michi"
 }
 ```
+
+### Development
+
+**Frontend**: http://localhost:3000/
+<br/>
+**Backend**: http://localhost:5000/
+
+### Production
 
 **Frontend**: http://localhost:3001/
 <br/>

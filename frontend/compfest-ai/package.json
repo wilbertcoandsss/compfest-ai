@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@pinecone-database/pinecone": "^2.2.2",
     "dotenv": "^16.4.5",
     "next": "14.2.5",
     "path": "^0.12.7",

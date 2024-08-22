@@ -16,8 +16,13 @@ def create_app():
 
     CORS(app)
 
+    """ Register routes """
+    from app.api.michi import michi_blueprint
+    from app.api.pinecone import pinecone_blueprint
+    app.register_blueprint(michi_blueprint)
+    app.register_blueprint(pinecone_blueprint)
 
-    from app.api.routes import api_blueprint
-    app.register_blueprint(api_blueprint)
-    
+
     return app
+        
+
