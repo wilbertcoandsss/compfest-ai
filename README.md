@@ -39,7 +39,7 @@ docker ps
 curl http://localhost:3002/michi
 ```
 
-**output:**
+**Output:**
 
 ```
 {
@@ -48,4 +48,5 @@ curl http://localhost:3002/michi
 ```
 
 **Frontend**: http://localhost:3001/
+<br/>
 **Backend**: http://localhost:3002/

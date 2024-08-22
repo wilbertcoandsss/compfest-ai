@@ -1,1 +1,1 @@
-export { PineconeService } from "./pinecone.service";
+// export { PineconeService } from "./pinecone.service";
