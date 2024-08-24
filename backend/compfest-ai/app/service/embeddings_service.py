@@ -8,10 +8,6 @@ def generate_embeddings(input: str, word: str):
     return result
 
 
-def generate_job_knowledge_base_prompt(
-    experience
-):
-
 def generate_job_prompt(job: Job):
     return f"""\
         I work as a {job.name}, which is tasked to {job.description}

@@ -14,33 +14,63 @@ docker rmi [image-name]
 # Quickstart
 
 ## Development
+
 **Frontend**
+
 ```
 cd frontend/compfest-ai/
 npm i
 npm run dev
 ```
+
 **Backend**
+
 ```
 cd backend/compfest-ai/
 python -m venv venv
 // MacOS, google if Windows
 source venv/bin/activate // deactivate venv: conda deactivate (if using conda)
 pip install -r requirements.txt
-python preload.py
-python run.py
+export FLASK_APP=run.py
+
+//first time, then preload models
+flask go preload
+
+//running tests
+flask go test
+
+//run app
+flask run // or python run.py
+```
+
+**Or**
+
+```
+cd backend/compfest-ai/
+python -m venv venv
+// MacOS, google if Windows
+source venv/bin/activate // deactivate venv: conda deactivate (if using conda)
+pip install -r requirements.txt
+export FLASK_APP=run.py
+
+chmod +x entrypoint.sh
+./entrypoint.sh
 ```
 
 ## Deployment
+
 **Ensure you have docker installed**
 
 **Frontend**
+
 ```
 cd frontend/compfest-ai/
 docker build . --tag compfest-ai-fe-next
 docker run -d --name compfest-ai-fe -p 3001:3000 compfest-ai-fe-next
 ```
+
 **Backend**
+
 ```
 cd backend/compfest-ai/
 docker build . --tag compfest-ai-be-flask
@@ -59,6 +89,8 @@ curl http://localhost:3002/michi/
 }
 ```
 
+##
+
 ### Development
 
 **Frontend**: http://localhost:3000/
@@ -67,6 +99,6 @@ curl http://localhost:3002/michi/
 
 ### Production
 
-**Frontend**: http://localhost:3001/
+**Frontend**: http://localhost:3000/
 <br/>
-**Backend**: http://localhost:3002/
+**Backend**: http://localhost:3001/

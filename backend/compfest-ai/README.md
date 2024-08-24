@@ -1,7 +1,7 @@
-### Local
+### Development
 
 **localhost:5000**
 
 ### Production
 
-**localhost:3002**
+**localhost:3001**

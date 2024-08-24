@@ -3,7 +3,7 @@ import os
 class Config(object):
     """ Base config class """
     TESTING = False
-    PORT = 3002
+    PORT = 3001
     DEBUG = os.getenv("DEBUG")
     MODE = os.getenv("FLASK_ENV")
     
@@ -20,11 +20,12 @@ class Config(object):
     PINECONE_DELETION_PROTECTION = "enabled"
 
     """ Model configs """
-    EMBEDDING_MODEL="cardiffnlp/twitter-roberta-base"
-    
+    MODEL_TYPE = "cardiffnlp/twitter-roberta-base"
+    PRELOADED_DIR = f"./preloaded_model"
+ 
     
 class ProductionConfig(Config):
-    PORT = 3002
+    PORT = 3001
 
     
 class DevelopmentConfig(Config):

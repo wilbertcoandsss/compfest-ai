@@ -3,7 +3,7 @@ import pandas
 import json
 from app.schema.job import JobSchema
 from marshmallow.exceptions import ValidationError
-from app.migration.job_descriptions import load_data as load_job_descriptions, parse_data_for_embedding
+from app.migration.jobs_description import load_data as load_job_descriptions, parse_data_for_embedding
 
 class TestJobSchema(unittest.TestCase):
     def test_job_schema(self):
