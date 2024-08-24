@@ -36,6 +36,9 @@ export FLASK_APP=run.py
 //first time, then preload models
 flask go preload
 
+//running migrations, (only ever run once, migrates fresh)
+flask go migrate --force
+
 //running tests
 flask go test
 

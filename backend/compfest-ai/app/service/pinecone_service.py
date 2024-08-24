@@ -1,5 +1,6 @@
 from pinecone import ServerlessSpec
 from flask import current_app as app, jsonify, Blueprint, request
+from typing import List, Tuple
 from enum import Enum
 import uuid
 from . import embeddings_service
@@ -86,3 +87,30 @@ def embed_and_upload_text(input: str, index_name: str, method="cls"):
     index.upsert(vectors=upsert_data)
 
     return "Embedding successfully uploaded", 200
+
+
+def batch_upload_vectors(vectors: List[List[float]], index_name: str = None, metadata: List[dict] = None):
+    """
+    Uploads a batch of vectors to the specified Pinecone index.
+
+    Args:
+        vectors (List[List[float]]): The list of vectors to upload.
+        index_name (str): The name of the Pinecone index to upsert data into.
+        metadata (List[dict], optional): List of metadata dictionaries corresponding to each vector.
+    """
+    if index_name is None:
+        index_name = app.config["PINECONE_INDEX_NAME"] 
+
+    index = pc.Index(index_name)
+
+    upsert_data = []
+    for i, vector in enumerate(vectors):
+        id = str(uuid.uuid4())
+        vector_data = {
+            "id": id,
+            "values": vector,
+            "metadata": metadata[i] if metadata else {}
+        }
+        upsert_data.append(vector_data)
+
+    index.upsert(vectors=upsert_data)

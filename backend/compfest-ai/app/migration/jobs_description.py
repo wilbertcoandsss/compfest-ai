@@ -5,7 +5,12 @@ from app.model.job import Job
 from app.model.skill import Skill
 from app.schema.job import JobSchema
 from app.schema.skill import SkillSchema
+from app.service import embeddings_service
+from app.service import pinecone_service
 from marshmallow.exceptions import ValidationError
+from flask import current_app as app
+from typing import List, Tuple
+from app.utils.helper import chunks
 
 DATA_FOR_EMBEDDING = [
     "job_title",
@@ -25,7 +30,7 @@ CSV_TO_MODEL_MAPPING = {
     "skills": "skills"
 }
 
-def parse_data_for_embedding(df) -> List[Job]:
+def parse_data_for_embedding_v1(df) -> List[Job]:
     prepared_df = df[DATA_FOR_EMBEDDING]
     jobs: List[Job] = []
 
@@ -59,6 +64,20 @@ def parse_data_for_embedding(df) -> List[Job]:
 
     return jobs
 
+def parse_data_for_embedding_v1(df) -> List[dict]:
+    """
+    awikwok
+    """
+    prepared_df = df[DATA_FOR_EMBEDDING]
+    jobs: List[str] = []
+
+    for row in prepared_df.itertuples(index=False):
+        jobs.append({
+            CSV_TO_MODEL_MAPPING[col]: getattr(row, col) for col in prepared_df.columns
+        })
+        
+    return jobs
+
 
 def load_data(debug=False, max=10000):
     df = pd.read_csv('./seeder/jobs_description.csv', on_bad_lines='skip', nrows=max)
@@ -70,4 +89,35 @@ def load_data(debug=False, max=10000):
     return df
 
 
+def run():
+    df = load_data()
+    jobs = parse_data_for_embedding_v1(df)
+    amount = len(jobs)
+    embed = 0
+    batch_size = 200
+    vector_dim = app.config['PINECONE_DIMENSIONS']
 
+    combined_data: List[Tuple[str, List[float], dict]] = []
+
+    for job in jobs:
+        print(f'Embedding: {embed}/{amount}')
+        prompt = embeddings_service.generate_job_knowledge_base_prompt(job)
+        vector = embeddings_service.generate_embeddings(prompt)
+        
+        """
+        Ini dulu pake job schema, gausah lah itu buat kalo mau CRUD aja
+        dataset udh di cleanup
+        # meta = helper.flatten_metadata(job_schema.dump(job))
+        # print(meta)
+
+        """
+        combined_data.append((prompt, vector, job))
+        embed+=1
+
+    print("Upserting chunks into database...")
+    for chunk in chunks(combined_data, batch_size):
+        prompt_chunk, vector_chunk, metadata_chunk = zip(*chunk)
+
+        pinecone_service.batch_upload_vectors(vector_chunk, metadata=metadata_chunk)
+
+    print("Data upserted successfully.")

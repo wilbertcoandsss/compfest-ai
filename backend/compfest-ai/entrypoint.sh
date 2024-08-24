@@ -4,12 +4,10 @@ set -e
 
 ENV=${FLASK_ENV:-development} 
 
-echo "Preloading models..."
 flask go preload
 
 # Optionally run tests
 # IMPORTANT: COMMENT OUT IN PROD
-echo "Running tests..."
 flask go test
 
 if [ "$ENV" == "development" ]; then
