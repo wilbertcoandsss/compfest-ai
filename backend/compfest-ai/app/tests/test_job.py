@@ -1,6 +1,7 @@
 import unittest
 from app.schema.job import JobSchema
 from app.schema.skill import SkillSchema
+from marshmallow.exceptions import ValidationError
 
 class TestJobSchema(unittest.TestCase):
     def test_job_schema(self):
@@ -35,7 +36,21 @@ class TestJobSchema(unittest.TestCase):
         job_json = job_schema.dump(job)
         self.assertEqual(job_json, job_data)
 
-        print(job_json)
+    def test_job_schema_load_invalid_data(self):
+        input_data = {
+            "name": "Software Developer",
+            "description": "",
+            "salary": "not-a-number",
+            "skills": [ 
+                {"name": "Python"},
+                {"name": "JavaScript"}
+            ]
+        }
+
+        job_schema = JobSchema()
+
+        with self.assertRaises(ValidationError):
+            job = job_schema.load(input_data)
 
 if __name__ == "__main__":
     unittest.main()

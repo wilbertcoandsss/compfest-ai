@@ -5,7 +5,7 @@ class Skill:
         self.department = department
 
     def __str__(self):
-        return f"""
+        return f"""\
             name = {self.name},
             experience = {self.experience},
             department = {self.department}

@@ -19,7 +19,6 @@ class TestSkillSchema(unittest.TestCase):
         skill_json = skill_schema.dump(skill)
         self.assertEqual(skill_json, skill_data)
 
-        print(skill_json)
 
 if __name__ == "__main__":
     unittest.main()

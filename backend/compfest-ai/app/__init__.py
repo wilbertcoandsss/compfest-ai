@@ -13,10 +13,10 @@ def create_app(AppConfig):
 
     """ Register routes """
     from app.api.michi import michi_bp
-    from app.api.pinecone import pinecone_bp
+    from app.api.pinecone import pinecone_v1_bp
     from app.api.embeddings import embeddings_v1_bp
     app.register_blueprint(michi_bp)
-    app.register_blueprint(pinecone_bp)
+    app.register_blueprint(pinecone_v1_bp)
     app.register_blueprint(embeddings_v1_bp)
 
 

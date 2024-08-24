@@ -8,7 +8,7 @@ class Job:
         self.skills = skills
 
     def __str__(self):
-        return f"""
+        return f"""\
             name = {self.name},
             description = {self.description},
             salary = {self.salary},
