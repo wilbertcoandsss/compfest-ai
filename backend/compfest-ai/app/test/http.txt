@@ -1,0 +1,19 @@
+curl -X POST http://localhost:5000/pinecone/v1/insert \
+-H "Content-Type: application/json" \
+-d '{
+    "name": "Frontend Developer",
+    "description": "Creating beautiful UI",
+    "salary": 15000000,
+    "skills": [
+        {
+            "name": "React",
+            "experience": 3,
+            "department": "Web Development"
+        },
+        {
+            "name": "Javascript",
+            "experience": 5,
+            "department": "Web Development"
+        }
+    ]
+}'

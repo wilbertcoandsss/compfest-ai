@@ -1,6 +1,7 @@
 from pinecone import ServerlessSpec
 from flask import current_app as app, jsonify, Blueprint, request
 from enum import Enum
+import uuid
 from . import embeddings_service
 from . import pc
 
@@ -71,7 +72,16 @@ def embed_and_upload_text(input: str, index_name: str, method="cls"):
 
     embedding_vector = embeddings.cpu().numpy().tolist()
     
-    upsert_data = [(f"{input[:50]}", embedding_vector, {"text": input})]
+    id = str(uuid.uuid4())
+    upsert_data = [
+        {
+            "id": id,
+            "values": embedding_vector,
+            "metadata": {
+                "input": input
+            }
+        }
+    ]
     index = pc.Index(index_name)
     index.upsert(vectors=upsert_data)
 
