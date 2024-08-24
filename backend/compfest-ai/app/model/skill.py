@@ -1,12 +1,8 @@
 class Skill:
-    def __init__(self, name, experience, department):
+    def __init__(self, name):
         self.name = name
-        self.experience = experience
-        self.department = department
 
     def __str__(self):
         return f"""\
             name = {self.name},
-            experience = {self.experience},
-            department = {self.department}
         """

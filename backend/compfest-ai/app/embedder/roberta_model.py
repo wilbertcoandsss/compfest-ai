@@ -43,8 +43,8 @@ class Roberta:
         if method == "cls":
             # Use the [CLS] token's embedding as the representation of the entire sentence
             cls_embedding = hidden_states[-1][:, 0, :]
-            return cls_embedding.squeeze()
-        
+            res = cls_embedding.squeeze()
+            return res 
         elif method == "mean":
             # Mean pooling of the last layer hidden states (excluding padding tokens)
             attention_mask = inputs['attention_mask'].unsqueeze(-1).expand(hidden_states[-1].size()).float()

@@ -4,8 +4,10 @@ from .skill import SkillSchema
 
 class JobSchema(Schema):
     name = fields.Str(required=True)
+    role = fields.Str(required=True)
+    experience = fields.Str(required=True)
+    salary_range = fields.Str(required=True)
     description = fields.Str(required=True)
-    salary = fields.Float(required=True)
     skills = fields.List(fields.Nested(SkillSchema), required=True)
 
     @post_load

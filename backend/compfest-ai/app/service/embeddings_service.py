@@ -7,9 +7,11 @@ def generate_embeddings(input: str, word: str):
     result = embedder.generate_embeddings(input, word) 
     return result
 
-"""
-Generate a meaningful prompt later
-"""
+
+def generate_job_knowledge_base_prompt(
+    experience
+):
+
 def generate_job_prompt(job: Job):
     return f"""\
         I work as a {job.name}, which is tasked to {job.description}

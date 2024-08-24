@@ -3,8 +3,6 @@ from app.model.skill import Skill
 
 class SkillSchema(Schema):
     name = fields.Str(required=True)
-    experience = fields.Integer(required=True)
-    department = fields.Str(required=True)
 
     @post_load
     def make_skill(self, data, **kwargs):
