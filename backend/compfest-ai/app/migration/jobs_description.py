@@ -64,7 +64,7 @@ def parse_data_for_embedding_v1(df) -> List[Job]:
 
     return jobs
 
-def parse_data_for_embedding_v1(df) -> List[dict]:
+def parse_data_for_embedding_v2(df) -> List[dict]:
     """
     awikwok
     """
@@ -91,7 +91,7 @@ def load_data(debug=False, max=10000):
 
 def run():
     df = load_data()
-    jobs = parse_data_for_embedding_v1(df)
+    jobs = parse_data_for_embedding_v2(df)
     amount = len(jobs)
     embed = 0
     batch_size = 200

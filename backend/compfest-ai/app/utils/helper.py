@@ -8,7 +8,7 @@ def chunks(iterable, batch_size=200):
     chunk = tuple(itertools.islice(it, batch_size))
     while chunk:
         yield chunk
-        chunk = tuple(itertools.islice(it, batch_size))""
+        chunk = tuple(itertools.islice(it, batch_size))
 
 """
 #UNUSED

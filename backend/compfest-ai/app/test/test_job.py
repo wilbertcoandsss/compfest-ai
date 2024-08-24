@@ -3,7 +3,7 @@ import pandas
 import json
 from app.schema.job import JobSchema
 from marshmallow.exceptions import ValidationError
-from app.migration.jobs_description import load_data as load_job_descriptions, parse_data_for_embedding
+from app.migration.jobs_description import load_data as load_job_descriptions, parse_data_for_embedding_v1
 
 class TestJobSchema(unittest.TestCase):
     def test_job_schema(self):
@@ -60,7 +60,7 @@ class TestJobSchema(unittest.TestCase):
     def test_load_job(self):
         df = load_job_descriptions(max=1)
 
-        embedding_data = parse_data_for_embedding(df)
+        embedding_data = parse_data_for_embedding_v1(df)
         job = embedding_data[0]
         self.assertEqual(job.name, df['job_title'][0])
         self.assertEqual(job.role, df['role'][0])
