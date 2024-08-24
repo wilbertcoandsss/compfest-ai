@@ -1,4 +1,4 @@
-from app.model.roberta_model import Roberta
+from app.embedder.roberta_model import Roberta
 
 embedder = Roberta()
 
