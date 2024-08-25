@@ -54,11 +54,12 @@ python -m venv venv
 // MacOS, google if Windows
 source venv/bin/activate // deactivate venv: conda deactivate (if using conda)
 pip install -r requirements.txt
-export FLASK_APP=run.py
 
 chmod +x entrypoint.sh
 ./entrypoint.sh
 ```
+
+_Note: entrypoint script runs everything if already installed dependencies_
 
 ## Deployment
 
@@ -77,11 +78,12 @@ docker run -d --name compfest-ai-fe -p 3001:3000 compfest-ai-fe-next
 ```
 cd backend/compfest-ai/
 docker build . --tag compfest-ai-be-flask
-docker run -d --name compfest-ai-be -p 3002:3000 compfest-ai-be-flask
+docker run -d --name compfest-ai-be -p 3002:3001 compfest-ai-be-flask
 ```
 
 ```
-curl http://localhost:3002/michi/
+// ports: 3001/5000/6969
+curl http://localhost:3001/michi/
 ```
 
 **Output:**

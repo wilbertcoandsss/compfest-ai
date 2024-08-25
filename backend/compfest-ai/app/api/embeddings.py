@@ -2,7 +2,7 @@ from flask import request, jsonify
 from . import embeddings_v1_bp
 from app.service import embeddings_service
 
-@embeddings_v1_bp.route('/', methods=["GET"])
+@embeddings_v1_bp.route('/', methods=["POST"])
 def get_embeddings():
     data = request.get_json()
     input = data['input']

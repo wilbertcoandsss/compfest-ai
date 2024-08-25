@@ -12,8 +12,12 @@ def pinecone_manage_index(mode:str):
         "message": response
     }), status_code
 
-@pinecone_v1_bp.route('/insert', methods=["POST"])
-def pinecone_insert():
+"""
+inserting additional jobs if necessary,
+currently only using migrations
+"""
+@pinecone_v1_bp.route('/job/insert', methods=["POST"])
+def pinecone_job_insert():
     data = request.get_json()
 
     try:

@@ -9,7 +9,7 @@ COPY . .
 
 RUN chmod +x entrypoint.sh
 
-EXPOSE 3000
+EXPOSE 3001
 
 ENV FLASK_APP=run.py
 
