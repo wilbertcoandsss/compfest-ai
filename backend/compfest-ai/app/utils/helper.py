@@ -13,36 +13,35 @@ def chunks(iterable, batch_size=200):
 """
 #UNUSED
 #Flattend dictionary into string, idk if work or not
+"""
+
+
 def flatten_metadata(metadata: dict) -> dict:
-    
     flat_metadata = {}
-    for key, value in metadata.items():
-        if isinstance(value, list):
-            if all(isinstance(item, dict) for item in value):
-                flat_metadata[key] = [flatten_dict(item) for item in value]
+
+    # Helper function to handle nested dictionaries and convert everything to string
+    def flatten_dict(d: dict, parent_key: str = '') -> dict:
+        items = {}
+        for key, value in d.items():
+            new_key = f"{parent_key}_{key}" if parent_key else key  # Create a new key path
+            if isinstance(value, dict):
+                items.update(flatten_dict(value, new_key))  # Recursively flatten dictionaries
+            elif isinstance(value, list):
+                # Check if list contains dictionaries
+                if all(isinstance(item, dict) for item in value) and key == 'skills':
+                    # Concatenate skill names into a single string
+                    concatenated_skills = ', '.join(item['name'] for item in value if 'name' in item)
+                    items[new_key] = concatenated_skills
+                elif all(isinstance(item, dict) for item in value):
+                    for i, item in enumerate(value):
+                        items.update(flatten_dict(item, f"{new_key}_{i}"))  # Flatten each dictionary in list
+                else:
+                    # Convert list to string representation
+                    items[new_key] = str(value)
             else:
-                flat_metadata[key] = value
-        elif isinstance(value, dict):
-            for sub_key, sub_value in flatten_dict(value).items():
-                flat_metadata[f"{key}_{sub_key}"] = sub_value
-        else:
-            flat_metadata[key] = value
+                items[new_key] = str(value)  # Convert all other values to string
+        return items
 
+    flat_metadata.update(flatten_dict(metadata))
     return flat_metadata
-"""
 
-
-
-"""
-#UNUSED
-#Recursive flatten
-def flatten_dict(d: dict) -> dict:
-    flat_dict = {}
-    for key, value in d.items():
-        if isinstance(value, dict):
-            for sub_key, sub_value in flatten_dict(value).items():
-                flat_dict[f"{key}_{sub_key}"] = sub_value
-        else:
-            flat_dict[key] = value
-    return flat_dict
-"""

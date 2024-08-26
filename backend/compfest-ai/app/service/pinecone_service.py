@@ -3,7 +3,6 @@ from flask import current_app as app, jsonify, Blueprint, request
 from typing import List, Tuple
 from enum import Enum
 import uuid
-from . import embeddings_service
 from . import pc
 
 class ManageIndexEnum(Enum):
@@ -49,47 +48,39 @@ def manage_index(mode: ManageIndexEnum):
         return "Invalid action", 400
 
 
-"""
-def embed_and_upload_text(input: str, word: str, index_name: str):
-    if index_name != app.config['PINECONE_INDEX_NAME']:
-        return "Index name invalid", 400
-    
-    embeddings = embeddings_service.generate_embeddings(input, word)
+def upsert_data(
+    metadata: List[dict],
+    vector: List[List[float]], 
+    namespace: str,
+    index_name: str = None,
+):
+    if index_name is None:
+        index_name = app.config["PINECONE_INDEX_NAME"]     
 
-    embedding_vector = embeddings.cpu().numpy().tolist()
-    
-    upsert_data = [(f"{input}-{word}", embedding_vector, {"text": input, "word": word})]
-    index = pc.Index(index_name)
-    index.upsert(vectors=upsert_data)
-
-    return "Embedding successfully uploaded", 200
-"""
-
-def embed_and_upload_text(input: str, index_name: str, method="cls"):
-    if index_name != app.config['PINECONE_INDEX_NAME']:
-        return "Index name invalid", 400
-    
-    embeddings = embeddings_service.generate_embeddings(input, method)
-
-    embedding_vector = embeddings.cpu().numpy().tolist()
-    
     id = str(uuid.uuid4())
     upsert_data = [
         {
             "id": id,
-            "values": embedding_vector,
-            "metadata": {
-                "input": input
-            }
+            "values": vector,
+            "metadata": metadata
         }
     ]
+
     index = pc.Index(index_name)
-    index.upsert(vectors=upsert_data)
+    index.upsert(
+        namespace=namespace,
+        vectors=upsert_data
+    )
 
-    return "Embedding successfully uploaded", 200
+    return "Data successfully upserted", 200
 
 
-def batch_upload_vectors(vectors: List[List[float]], index_name: str = None, metadata: List[dict] = None):
+def batch_upload(
+    vectors: List[List[float]], 
+    namespace: str,
+    index_name: str = None, 
+    metadata: List[dict] = None
+):
     """
     Uploads a batch of vectors to the specified Pinecone index.
 
@@ -113,4 +104,30 @@ def batch_upload_vectors(vectors: List[List[float]], index_name: str = None, met
         }
         upsert_data.append(vector_data)
 
-    index.upsert(vectors=upsert_data)
+    index.upsert(
+        namespace=namespace,
+        vectors=upsert_data,
+    )
+
+    return "Data successfully upserted", 200
+
+
+def query(
+    namespace: str,
+    vector: List[List[float]],
+    index_name: str = None,
+):
+    if index_name is None:
+        index_name = app.config["PINECONE_INDEX_NAME"] 
+
+    index = pc.Index(index_name)
+
+    res = index.query(
+            vector=vector,
+            namespace=namespace,
+            top_k=app.config["PINECONE_TOP_K"],
+            include_values=app.config["PINECONE_INCLUDE_VALUES"],
+            include_metadata=app.config["PINECONE_INCLUDE_METADATA"] 
+        )
+    return res.matches, 200
+

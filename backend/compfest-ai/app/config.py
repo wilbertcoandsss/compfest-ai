@@ -16,7 +16,7 @@ class Config(object):
     PINECONE_CLOUD_PROVIDER = "aws"
     PINECONE_TOP_K = 5
     PINECONE_INCLUDE_VALUES = False
-    PINECONE_METADATA = True
+    PINECONE_INCLUDE_METADATA = True
     PINECONE_DELETION_PROTECTION = "enabled"
 
     """ Model configs """

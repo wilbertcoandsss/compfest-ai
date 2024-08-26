@@ -4,6 +4,8 @@ from . import pinecone_v1_bp
 from app.service import pinecone_service
 from app.service import embeddings_service
 from app.schema.job import JobSchema
+from app.schema.job_request import JobRequestSchema
+from app.utils.helper import flatten_metadata
 
 @pinecone_v1_bp.route('/manage/index/<string:mode>', methods=["POST"])
 def pinecone_manage_index(mode:str):
@@ -30,10 +32,51 @@ def pinecone_job_insert():
         }), 400
 
     input = embeddings_service.generate_job_prompt(job)
+    embeddings = embeddings_service.generate_embeddings(input)
+    vector = embeddings.cpu().numpy().tolist()
+    metadata = flatten_metadata(data)
+
+    print(metadata)
+
     index_name = app.config['PINECONE_INDEX_NAME'] 
-    
-    response, status_code = pinecone_service.embed_and_upload_text(input, index_name) 
+    namespace = "jobs_description" 
+    response, status_code = pinecone_service.upsert_data(
+        metadata=metadata,
+        vector=vector,
+        namespace=namespace,
+        index_name=index_name
+    ) 
+
     return jsonify({
         "message": response,
     }), status_code
+
+@pinecone_v1_bp.route('/job/reccomendations', methods=["POST"])
+def pinecone_job_reccomendations():
+    data = request.get_json()
+    
+    try:
+        job_request_schema = JobRequestSchema()
+        job_request = job_request_schema.load(data)
+    except ValidationError as err:
+        return jsonify({
+            "error": "Data does not match schema",
+            "messages": err.messages
+        })
+
+    
+    prompt = embeddings_service.generate_job_request_prompt(job_request)
+    vector = embeddings_service.generate_embeddings(prompt)
+    namespace = "jobs_description"
+
+    res, status_code = pinecone_service.query(
+        namespace=namespace,
+        vector=vector,
+    )    
+
+    return jsonify({
+        "response": f'{res}',
+    }), status_code
+    
+
 

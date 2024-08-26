@@ -1,12 +1,10 @@
 import os
 import pandas as pd
-from typing import List
 from app.model.job import Job
 from app.model.skill import Skill
 from app.schema.job import JobSchema
 from app.schema.skill import SkillSchema
-from app.service import embeddings_service
-from app.service import pinecone_service
+from app.service import embeddings_service, pinecone_service
 from marshmallow.exceptions import ValidationError
 from flask import current_app as app
 from typing import List, Tuple
@@ -18,16 +16,19 @@ DATA_FOR_EMBEDDING = [
     "experience",
     "salary_range",
     "job_description",
-    "skills"
+    "skills",
+    "qualifications"
 ]
 
 CSV_TO_MODEL_MAPPING = {
     "job_title": "name",
     "role": "role",
     "experience": "experience",
+    "qualifications": "qualifications",
     "salary_range": "salary_range",
     "job_description": "description",
-    "skills": "skills"
+    "skills": "skills",
+    "responsibitilies": "responsibitilies"
 }
 
 def parse_data_for_embedding_v1(df) -> List[Job]:
@@ -96,6 +97,7 @@ def run():
     embed = 0
     batch_size = 200
     vector_dim = app.config['PINECONE_DIMENSIONS']
+    namespace = 'jobs_description'
 
     combined_data: List[Tuple[str, List[float], dict]] = []
 
@@ -115,9 +117,14 @@ def run():
         embed+=1
 
     print("Upserting chunks into database...")
+    print(f'Using {namespace}')
     for chunk in chunks(combined_data, batch_size):
         prompt_chunk, vector_chunk, metadata_chunk = zip(*chunk)
 
-        pinecone_service.batch_upload_vectors(vector_chunk, metadata=metadata_chunk)
+        pinecone_service.batch_upload(
+            vector_chunk, 
+            namespace=namespace,
+            metadata=metadata_chunk
+        )
 
     print("Data upserted successfully.")
