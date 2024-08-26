@@ -10,16 +10,9 @@ def chunks(iterable, batch_size=200):
         yield chunk
         chunk = tuple(itertools.islice(it, batch_size))
 
-"""
-#UNUSED
-#Flattend dictionary into string, idk if work or not
-"""
-
-
 def flatten_metadata(metadata: dict) -> dict:
     flat_metadata = {}
 
-    # Helper function to handle nested dictionaries and convert everything to string
     def flatten_dict(d: dict, parent_key: str = '') -> dict:
         items = {}
         for key, value in d.items():
@@ -36,10 +29,9 @@ def flatten_metadata(metadata: dict) -> dict:
                     for i, item in enumerate(value):
                         items.update(flatten_dict(item, f"{new_key}_{i}"))  # Flatten each dictionary in list
                 else:
-                    # Convert list to string representation
                     items[new_key] = str(value)
             else:
-                items[new_key] = str(value)  # Convert all other values to string
+                items[new_key] = str(value) 
         return items
 
     flat_metadata.update(flatten_dict(metadata))

@@ -22,7 +22,7 @@ class Config(object):
     """ Model configs """
     MODEL_TYPE = "cardiffnlp/twitter-roberta-base"
     PRELOADED_DIR = f"./preloaded_model"
- 
+
     
 class ProductionConfig(Config):
     PORT = 3001
