@@ -24,7 +24,7 @@ body='
 content_length=${#body}
 
 lines=(
-  'POST /pinecone/v1/job/recommendations HTTP/1.1'
+  'POST /jobs/v1/recommendations HTTP/1.1'
   'Host: localhost'
   'Content-Type: application/json'
   "Content-Length: $content_length"

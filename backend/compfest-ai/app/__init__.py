@@ -31,10 +31,12 @@ def create_app():
     from app.api.michi import michi_bp
     from app.api.pinecone import pinecone_v1_bp
     from app.api.embeddings import embeddings_v1_bp
+    from app.api.jobs import jobs_v1_bp
     app.register_blueprint(cli_bp)
     app.register_blueprint(michi_bp)
     app.register_blueprint(pinecone_v1_bp)
     app.register_blueprint(embeddings_v1_bp)
+    app.register_blueprint(jobs_v1_bp)
 
 
     return app
