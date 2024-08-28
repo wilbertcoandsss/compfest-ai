@@ -1,31 +1,30 @@
 "use client"
+import { usePathname, useRouter } from "next/navigation"
+import { animatePageOut } from "@lib/animations/page-transitions";
 
-import { usePathname } from 'next/navigation';
-import React from 'react';
-import { TextGlitch } from './text-glitch';
-
-interface NavLinkProps {
-  href: string;
-  textToGlitch: string;
-  activeClassName?: string;
-  inactiveClassName?: string;
+interface Props {
+  href: string
+  label: string
 }
 
-const NavLink: React.FC<NavLinkProps> = ({
-  href,
-  textToGlitch,
-  activeClassName = 'font-bold underline p-5',
-  inactiveClassName = 'hover:underline',
-}) => {
-  const router = usePathname();
-  const isActive = router === href;
-  return (
-    <div className='font-restart'>
-      <a href={href} className={isActive ? activeClassName : inactiveClassName}>
-        <TextGlitch textToGlitch={textToGlitch} hover={true}/>
-      </a>
-    </div>
-  );
-};
+const TransitionLink = ({ href, label }: Props) => {
+  const router = useRouter()
+  const pathname = usePathname()
 
-export default NavLink;
+  const handleClick = () => {
+    if (pathname !== href) {
+      animatePageOut(href, router)
+    }
+  }
+
+  return (
+    <button
+      className="text-xl text-neutral-900 hover:text-neutral-700"
+      onClick={handleClick}
+    >
+      {label}
+    </button>
+  )
+}
+
+export default TransitionLink

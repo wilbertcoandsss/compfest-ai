@@ -1,3 +1,5 @@
+"use client"
+
 import Link from 'next/link'
 import React, { useEffect } from 'react'
 import NavLink from '../utility/navlink'
@@ -5,6 +7,7 @@ import { VariableHover } from '../utility/variable-hover'
 import { TextGlitch } from '../utility/text-glitch'
 import AOS from "aos";
 import 'aos/dist/aos.css';
+import TransitionLink from '../utility/navlink'
 
 const Navbar = () => {
   useEffect(() => {
@@ -14,13 +17,14 @@ const Navbar = () => {
 
   return (
     <nav className="flex items-center justify-between p-4 flex-row">
-      <div className="text-lg font-medium">
-        <NavLink href="/" textToGlitch="FreakyNus" data-aos='fade-right' data-aos-duration='200'></NavLink>
+      <div className="text-2xl font-medium">
+        <TransitionLink href="/" label="FreakyNus" />
       </div>
-      <div className="flex space-x-4 font-normal" data-aos='fade-left' data-aos-duration='300'>
-        <TextGlitch textToGlitch={"Home"} hover={true}/>
-        <TextGlitch textToGlitch={"About Us"} hover={true}/>
-        <TextGlitch textToGlitch={"Skills"} hover={true}/>
+      <div className="flex space-x-4 text-1xl font-medium" data-aos='fade-left' data-aos-duration='300'>
+        <TransitionLink href="/" label="Home" />
+        <TransitionLink href="/skills" label="Skills" />
+        <TransitionLink href="/about" label="About" />
+        {/* <TextGlitch textToGlitch={"Skills"} hover={true} /> */}
       </div>
     </nav>
   )

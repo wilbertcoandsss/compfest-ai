@@ -47,7 +47,7 @@ export const TextGlitch: React.FC<TextGlitchProps> = ({ textToGlitch, hover }) =
         <div>
             {hover ? <>
                 <p
-                    className="uppercase text-5xl"
+                    className="text-5xl"
                     ref={(el) => {
                         ref.current = el;
                     }}
@@ -58,7 +58,7 @@ export const TextGlitch: React.FC<TextGlitchProps> = ({ textToGlitch, hover }) =
                 :
                 <>
                     <p
-                        className="uppercase text-5xl"
+                        className="text-5xl"
                         ref={(el) => {
                             ref.current = el;
                         }}
