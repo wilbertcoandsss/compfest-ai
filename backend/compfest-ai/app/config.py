@@ -23,6 +23,7 @@ class Config(object):
     MODEL_TYPE = "cardiffnlp/twitter-roberta-base"
     PRELOADED_DIR = f"./preloaded_model"
 
+    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
     
 class ProductionConfig(Config):
     PORT = 3001

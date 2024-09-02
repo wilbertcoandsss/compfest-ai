@@ -1,8 +1,7 @@
 from flask import request, jsonify, current_app as app
 from marshmallow.exceptions import ValidationError
 from . import jobs_v1_bp
-from app.service import pinecone_service
-from app.service import embeddings_service
+from app.service import pinecone_service, embeddings_service, tokenizer_service
 from app.schema.job import JobSchema
 from app.schema.skill import SkillSchema
 from app.model.job import Job
@@ -71,9 +70,11 @@ def pinecone_job_recommendations():
     job_schema = JobSchema()
 
     for r in res:
-        if isinstance(r['metadata'].get('skills'), str):
-            # Turn into list, then create a skill object
-            r['metadata']['skills'] = [{"name": skill} for skill in [r['metadata']['skills']]]
+        if isinstance(r['metadata']['skills'], str):
+            parsed_skills = tokenizer_service.parse_skills(r['metadata']['skills'])
+            print(parsed_skills)
+
+            r['metadata']['skills'] = [{"name": skill.strip()} for skill in parsed_skills if skill.strip()]
 
         try:
             job_metadata = job_schema.load(r['metadata'])
@@ -91,3 +92,4 @@ def pinecone_job_recommendations():
     return jsonify({
         "response": jobs
     }), status_code
+

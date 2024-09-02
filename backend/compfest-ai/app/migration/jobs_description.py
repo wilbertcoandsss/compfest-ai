@@ -4,7 +4,7 @@ from app.model.job import Job
 from app.model.skill import Skill
 from app.schema.job import JobSchema
 from app.schema.skill import SkillSchema
-from app.service import embeddings_service, pinecone_service
+from app.service import embeddings_service, pinecone_service, tokenizer_service
 from marshmallow.exceptions import ValidationError
 from flask import current_app as app
 from typing import List, Tuple
@@ -45,10 +45,6 @@ def parse_data_for_embedding_v1(df) -> List[Job]:
 
         skills_str = job_data.get('skills', '')
 
-        """
-        might parse for ,
-        idk tho
-        """
         skill_names = [skills_str] if skills_str else []
 
         skill_objects = [
@@ -66,19 +62,20 @@ def parse_data_for_embedding_v1(df) -> List[Job]:
     return jobs
 
 def parse_data_for_embedding_v2(df) -> List[dict]:
-    """
-    awikwok
-    """
-    prepared_df = df[DATA_FOR_EMBEDDING]
-    jobs: List[str] = []
+    job_data = df[DATA_FOR_EMBEDDING].copy()
+    data_len = job_data.shape[0]
+    jobs: List[dict] = []
 
-    for row in prepared_df.itertuples(index=False):
+    for idx, row in job_data.iterrows():
+        skills_str = row.get('skills', '')
+        print(f"Embedding {idx}/{data_len}")
+        job_data.loc[idx, 'skills'] = tokenizer_service.tokenize_and_infer_skills(skills_str)
+
         jobs.append({
-            CSV_TO_MODEL_MAPPING[col]: getattr(row, col) for col in prepared_df.columns
+            CSV_TO_MODEL_MAPPING[col]: row[col] for col in job_data.columns
         })
         
     return jobs
-
 
 def load_data(debug=False, max=10000):
     df = pd.read_csv('./seeder/jobs_description.csv', on_bad_lines='skip', nrows=max)
@@ -88,7 +85,6 @@ def load_data(debug=False, max=10000):
         print(f'Info: {df.info()}')
 
     return df
-
 
 def run():
     df = load_data()
@@ -105,19 +101,18 @@ def run():
         print(f'Embedding: {embed}/{amount}')
         prompt = embeddings_service.generate_job_knowledge_base_prompt(job)
         vector = embeddings_service.generate_embeddings(prompt)
-        
-        """
-        Ini dulu pake job schema, gausah lah itu buat kalo mau CRUD aja
-        dataset udh di cleanup
-        # meta = helper.flatten_metadata(job_schema.dump(job))
-        # print(meta)
 
-        """
         combined_data.append((prompt, vector, job))
-        embed+=1
+        embed += 1
+
+    df_logs = pd.DataFrame(combined_data, columns=['Prompt', 'Vector', 'Metadata'])
+
+    df_logs.to_csv('./app/migration/migration_cache.csv', index=False)
+    print("Logs saved to app/migration/migration_cache.csv")
 
     print("Upserting chunks into database...")
     print(f'Using {namespace}')
+
     for chunk in chunks(combined_data, batch_size):
         prompt_chunk, vector_chunk, metadata_chunk = zip(*chunk)
 
@@ -128,3 +123,4 @@ def run():
         )
 
     print("Data upserted successfully.")
+
