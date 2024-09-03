@@ -135,3 +135,23 @@ def query(
         )
     return res.matches, 200
 
+
+def queryById(
+    namespace: str,
+    id: str,
+    index_name: str = None,
+):
+    if index_name is None:
+        index_name = app.config["PINECONE_INDEX_NAME"] 
+
+    index = pc.Index(index_name)
+
+    res = index.query(
+            id=id,
+            namespace=namespace,
+            top_k=1,
+            include_values=app.config["PINECONE_INCLUDE_VALUES"],
+            include_metadata=app.config["PINECONE_INCLUDE_METADATA"] 
+        )
+    return res.matches, 200
+

@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 
+    # This queries for job recommendations based on
+    # the job knowledge base in the "jobs_description" namespace.
+    #
+    # It takes a JobRequest as an arugment which is a subset of Job,
+    # Then turning it a prompt then generates vector embedding based on that prompt,
+    # It queries to the database and recommends similar jobs of k amount 
+    #
+    # It returns a list of Job with its corresponding id and score.
+    # Score determines the similarity to the given input.
+
 exec 3<>/dev/tcp/localhost/6969 || { echo "Failed to connect to localhost on port 6969"; exit 1; }
 
 body='

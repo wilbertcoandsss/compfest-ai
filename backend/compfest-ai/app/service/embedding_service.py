@@ -6,7 +6,10 @@ from app.utils.helper import deprecated
 
 embedder = Roberta()
 
-def generate_embedding(input: str, method:str = 'cls'):
+def generate_embedding(
+        input: str, 
+        method:str = 'cls'
+):
     result = embedder.generate_embedding(input, method) 
     return result
 
@@ -48,19 +51,17 @@ def generate_user_job_request_prompt(user_job_request: UserJobRequest) -> str:
     The prompt includes the user's name, purpose, graduate level,
     qualifications, preference, and skills.
     """
-    
-    skills = ', '.join([skill.name for skill in user_job_request.skills])
+    skills = ', '.join([str(skill.name) for skill in user_job_request.skills])
     
     prompt = (
         f"I am a {user_job_request.graduate_level} graduate. "
         f"My purpose is to {user_job_request.purpose}. "
-        f"My preference is {user_job_request.preference}. "
-        f"My qualifications include {user_job_request.qualifications}. "
-        f"Skills I have are: {skills}."
+        f"Qualifications {user_job_request.qualifications}. "
+        f"Preference: {user_job_request.preference}. "
+        f"Skills I have: {skills}."
     )
     
     return prompt
-
 
 
 @deprecated
