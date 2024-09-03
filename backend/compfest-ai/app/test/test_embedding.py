@@ -2,10 +2,10 @@ import unittest
 import pandas
 from app.schema.job_request import JobRequestSchema
 from marshmallow.exceptions import ValidationError
-from app.service.embeddings_service import generate_job_request_prompt
+from app.service.embedding_service import generate_job_request_prompt
 
-class TestEmbeddings(unittest.TestCase):
-    def test_job_request_embeddings(self):
+class TestEmbedding(unittest.TestCase):
+    def test_job_request_embedding(self):
         input_data = {
             "qualifications": "M.Tech",
             "salary_range": "$30k",

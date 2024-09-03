@@ -4,7 +4,7 @@ from app.model.job import Job
 from app.model.skill import Skill
 from app.schema.job import JobSchema
 from app.schema.skill import SkillSchema
-from app.service import embeddings_service, pinecone_service, tokenizer_service
+from app.service import embedding_service, pinecone_service, tokenizer_service
 from marshmallow.exceptions import ValidationError
 from flask import current_app as app
 from typing import List, Tuple
@@ -99,8 +99,8 @@ def run():
 
     for job in jobs:
         print(f'Embedding: {embed}/{amount}')
-        prompt = embeddings_service.generate_job_knowledge_base_prompt(job)
-        vector = embeddings_service.generate_embeddings(prompt)
+        prompt = embedding_service.generate_job_knowledge_base_prompt(job)
+        vector = embedding_service.generate_embedding(prompt)
 
         combined_data.append((prompt, vector, job))
         embed += 1

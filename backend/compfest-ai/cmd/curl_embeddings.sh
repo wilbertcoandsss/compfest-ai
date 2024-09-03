@@ -11,7 +11,7 @@ body='
 content_length=${#body}
 
 lines=(
-  'POST /embeddings/v1/ HTTP/1.1'
+  'POST /embedding/v1/ HTTP/1.1'
   'Host: localhost'
   'Content-Type: application/json'
   "Content-Length: $content_length"

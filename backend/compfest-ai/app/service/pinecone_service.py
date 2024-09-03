@@ -10,11 +10,12 @@ class ManageIndexEnum(Enum):
     DELETE = "delete"
 
 
-"""
-managing pinecone indexes, currently only using freakynus.
-ensure this shit exists
-"""
 def manage_index(mode: ManageIndexEnum):
+    """
+    managing pinecone indexes, currently only using freakynus.
+    ensure this shit exists
+    """
+
     if mode == ManageIndexEnum.CREATE.value:
         index_name = app.config['PINECONE_INDEX_NAME']
         if not index_name:
@@ -53,11 +54,14 @@ def upsert_data(
     vector: List[List[float]], 
     namespace: str,
     index_name: str = None,
+    id: str = None
 ):
     if index_name is None:
         index_name = app.config["PINECONE_INDEX_NAME"]     
 
-    id = str(uuid.uuid4())
+    if id is None:
+        id = str(uuid.uuid4())
+
     upsert_data = [
         {
             "id": id,

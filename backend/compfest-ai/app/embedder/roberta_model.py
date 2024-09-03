@@ -33,7 +33,7 @@ class Roberta:
     https://stackoverflow.com/questions/60824589/how-can-i-get-roberta-word-embeddings
     God bless...
     """
-    def generate_embeddings(self, text, method="cls"):
+    def generate_embedding(self, text, method="cls"):
         inputs = self.tokenizer(text, return_tensors='pt', truncation=True, padding=True).to(self.device)
         
         with torch.no_grad():
