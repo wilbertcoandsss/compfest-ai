@@ -30,4 +30,4 @@ class ProductionConfig(Config):
 
     
 class DevelopmentConfig(Config):
-    PORT = 5000
+    PORT = 6969

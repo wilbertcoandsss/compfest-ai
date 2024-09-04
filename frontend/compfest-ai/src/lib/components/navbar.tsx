@@ -23,7 +23,6 @@ const Navbar = () => {
       <div className="flex space-x-4 text-1xl font-medium" data-aos='fade-left' data-aos-duration='300'>
         <TransitionLink href="/" label="Home" />
         <TransitionLink href="/skills" label="Skills" />
-        <TransitionLink href="/about" label="About" />
         {/* <TextGlitch textToGlitch={"Skills"} hover={true} /> */}
       </div>
     </nav>

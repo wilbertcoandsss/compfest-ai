@@ -1,0 +1,4 @@
+.custom-card {
+    --card-border-width: 0px !important; /* Disable border */
+    --card-background-color: #80838D !important; /* Inherit from parent */
+  }

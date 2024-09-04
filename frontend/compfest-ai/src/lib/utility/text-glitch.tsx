@@ -55,8 +55,8 @@ export const TextGlitch: React.FC<TextGlitchProps> = ({ textToGlitch, hover }) =
                 >
                 </p>
             </>
-                :
-                <>
+                    :
+                    <>
                     <p
                         className="text-5xl"
                         ref={(el) => {

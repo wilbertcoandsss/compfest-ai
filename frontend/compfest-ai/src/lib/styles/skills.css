@@ -5,7 +5,7 @@
 :root {
   /*========== Colors ==========*/
   /* Color mode HSL & RGB */
-  --first-color: hsl(79, 100%, 49%);
+  --first-color: #80838D;
   --white-color: #fff;
   --black-color: #000;
 
@@ -107,7 +107,7 @@ body {
 
 .form__submit {
   padding: .875rem 1.5rem;
-  color: var(--black-color);
+  color: var(--white-color);
   background-color: var(--first-color);
   cursor: pointer;
   transition: transform .3s;

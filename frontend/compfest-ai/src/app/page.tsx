@@ -179,7 +179,7 @@ export default function Home() {
           <Parallax
             speed={-30}>
             <div className="text-3xl font-medium h-screen absolute top-[100vh]" data-aos='fade-up' data-aos-duration='1400'>
-            <TextGlitch textToGlitch="Ready to start your journey ? "hover={true}></TextGlitch>
+            <TextGlitch textToGlitch="Ready to start your journey ? "hover={false}></TextGlitch>
             <br></br>
             <TransitionLink href="/skills" label="Click here!"/>
             </div>

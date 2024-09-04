@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { textParallaxScroll } from '@lib/animations/text-parallax';
-import { Box, Card, Text } from '@radix-ui/themes';
+import { Box, Card, Inset, Strong, Text } from '@radix-ui/themes';
+import { motion } from "framer-motion";
+import "@lib/styles/etc.css";
 
 interface ParallaxArgs {
   text: string[],
@@ -49,7 +51,7 @@ const TextContent: ParallaxArgs[] = [
       "Data interpretation",
       "Marketing automation tools"
     ],
-    direction: "20%"
+    direction: "-10%"
   },
   {
     text: [
@@ -69,7 +71,7 @@ const TextContent: ParallaxArgs[] = [
       "Google Analytics",
       "Marketing automation"
     ],
-    direction: "20%"
+    direction: "-15%"
   },
   {
     text: [
@@ -110,7 +112,7 @@ const TextContent: ParallaxArgs[] = [
       "Typography",
       "Creativity"
     ],
-    direction: "-15%"
+    direction: "5%"
   },
 ];
 
@@ -147,8 +149,8 @@ export const TextParallax = ({
     <div
       id="trigger"
       ref={triggerRef}
-      className={'text-nowrap w-full overflow-hidden flex justify-center items-center flex-col gap-4 uppercase'}
-      style={{paddingTop: '400px', paddingBottom: '410px'}}
+      className={'text-nowrap w-full overflow-hidden flex justify-center items-center flex-col gap-4 uppercase font-restart'}
+      style={{ paddingTop: '100px', paddingBottom: '110px' }}
     >
       {TextContent.map((content, index) => {
         return (
@@ -159,23 +161,41 @@ export const TextParallax = ({
             data-direction={content.direction}
           >
             {content.text.map(s => (
-              <Box key={s} className='px-2 py-2 font-restart cursor-pointer' onClick={() => onSkillClick(s)}>
-                <Card asChild className='bg-slate-500'>
-                  <div>
-                    <Text as="div" size="3" weight="bold" className='font-bold text-center'>
-                      {s}
-                    </Text>
-                    <Text as="div" color="gray" size="3" className='font-medium text-center'>
-                      {s}
-                    </Text>
-                  </div>
-                </Card>
+              <Box
+                onClick={() => onSkillClick(s)}
+                key={s}
+                className="px-1 py-2 font-restart cursor-pointer"
+              >
+                <motion.div
+                  initial={{ scale: 1 }}
+                  whileHover={{ rotate: 10, scale: 1.05 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 260,
+                    damping: 20,
+                    duration: 1.5, // Optional: To control the duration of the transition
+                  }}
+                  style={{ perspective: "1000px"}}
+                >
+                  <Card
+                    asChild
+                    className="custom-card">
+                    <div>
+                      <Text
+                        as="div"
+                        size="3"
+                        className="font-medium text-center text-white"
+                      >
+                        {s}
+                      </Text>
+                    </div>
+                  </Card>
+                </motion.div>
               </Box>
             ))}
           </div>
         )
       })}
-
     </div>
   );
 };
