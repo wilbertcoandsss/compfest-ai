@@ -17,17 +17,17 @@ DATA_FOR_EMBEDDING = [
     "salary_range",
     "job_description",
     "skills",
-    "qualifications"
+    "qualifications",
 ]
 
 CSV_TO_MODEL_MAPPING = {
     "job_title": "name",
     "role": "role",
     "experience": "experience",
-    "qualifications": "qualifications",
     "salary_range": "salary_range",
-    "job_description": "description",
     "skills": "skills",
+    "job_description": "description",
+    "qualifications": "qualifications",
     "responsibitilies": "responsibitilies"
 }
 

@@ -22,16 +22,15 @@ def pinecone_job_recommendations_v2(userid):
     user_preference_namespace = "user_preference"
     job_descriptions_namespace = "jobs_description"
     
-    try:
-        user_preference_res, status_code = pinecone_service.queryById(
+    user_preference_res, status_code = pinecone_service.queryById(
             namespace=user_preference_namespace,
             id=userid
         )
-    except Exception as e:
+
+    if status_code != 200:
         return jsonify({
             "error": "Failed to query by user ID",
-            "message": str(e)
-        }), 500
+        }),status_code
 
     if not user_preference_res or not isinstance(user_preference_res, list) or len(user_preference_res) == 0:
         return jsonify({
