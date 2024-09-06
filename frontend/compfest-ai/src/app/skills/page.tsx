@@ -22,8 +22,9 @@ import { MdError } from "react-icons/md";
 import Drawer from 'react-modern-drawer'
 import 'react-modern-drawer/dist/index.css';
 import Loader from "@lib/utility/loader";
-import { useRouter } from "next/navigation";
 import "@lib/styles/loader.css";
+import { usePathname, useRouter } from "next/navigation"
+import { animatePageOut } from "@lib/animations/page-transitions";
 
 type DegreeInfo = {
     fullForm: string;
@@ -209,7 +210,7 @@ export default function Skills() {
                 Hi there!
                 <br></br>
                 <br></br>
-                Welcome to FreakyNus!
+                Welcome to JobSeeker!
             </Parallax>
             <div ref={nextParallaxRef}>
                 <Parallax speed={15} className="flex items-center justify-center text-center font-restart text-5xl h-specific flex-col">
@@ -556,7 +557,7 @@ export default function Skills() {
                     onClose={toggleDrawer}
                     direction='bottom'
                     className='flex justify-center items-center font-restart'
-                    size={550}
+                    size={600}
                     enableOverlay={true}
                 >
                     <div className="">
@@ -606,7 +607,7 @@ export default function Skills() {
                                     </h1>
                                 </div>
                                 <div>
-                                    <h1 className="text-2xl font-medium">Your short description {' '}
+                                    <h1 className="text-2xl font-medium text-center">Your short description {' '}
                                         <Tooltip content="Click to change!">
                                             <h1 onClick={() => {
                                                 toggleDrawer()
@@ -676,7 +677,7 @@ export default function Skills() {
                                             };
                                             setLoading(true);
                                             try {
-                                                const response = await fetch('http://localhost:6969/user/v1/preference', {
+                                                const response = await fetch('https://compfest-ai.fly.dev/user/v1/preference', {
                                                     method: 'POST',
                                                     headers: {
                                                         'Content-Type': 'application/json',
@@ -691,7 +692,7 @@ export default function Skills() {
                                                 // setError(error.message);
                                             } finally {
                                                 setLoading(false);
-                                                router.push('/jobs');
+                                                await animatePageOut('/jobs', router);
                                             }
                                         };
 

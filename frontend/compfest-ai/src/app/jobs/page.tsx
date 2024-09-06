@@ -96,7 +96,7 @@ export default function jobs() {
             setLoad(true);
             const uniqueCred = localStorage.getItem('unique');
             try {
-                const response = await fetch(`http://localhost:6969/job/v2/recommendations/${uniqueCred}`, {
+                const response = await fetch(`https://compfest-ai.fly.dev/job/v2/recommendations/${uniqueCred}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

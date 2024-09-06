@@ -18,7 +18,7 @@ const Navbar = () => {
   return (
     <nav className="flex items-center justify-between p-4 flex-row">
       <div className="text-2xl font-medium">
-        <TransitionLink href="/" label="FreakyNus" />
+        <TransitionLink href="/" label="JobSeeker" />
       </div>
       <div className="flex space-x-4 text-1xl font-medium" data-aos='fade-left' data-aos-duration='300'>
         <TransitionLink href="/" label="Home" />

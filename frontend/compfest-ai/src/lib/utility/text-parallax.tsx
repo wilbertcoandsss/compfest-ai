@@ -164,7 +164,7 @@ export const TextParallax = ({
               <Box
                 onClick={() => onSkillClick(s)}
                 key={s}
-                className="px-1 py-2 font-restart cursor-pointer"
+                className="px-2 py-2 font-restart cursor-pointer"
               >
                 <motion.div
                   initial={{ scale: 1 }}
@@ -183,7 +183,7 @@ export const TextParallax = ({
                     <div>
                       <Text
                         as="div"
-                        size="3"
+                        size="5"
                         className="font-medium text-center text-white"
                       >
                         {s}
