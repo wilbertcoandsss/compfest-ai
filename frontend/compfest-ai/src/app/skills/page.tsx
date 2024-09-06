@@ -260,6 +260,14 @@ export default function Skills() {
                     <br></br>
                     <br></br>
                     It can be your email, or any thing that unique!
+                    <br></br>
+                    Please dont use any symbol or special character as we can't proceed it!
+                    <br></br>
+                    <br></br>
+                    <h5 className="text-4xl">Ex: webeganteng, aldenganteng, freakygantengnus123
+                        <br></br>
+                        <br></br>
+                        Dont make it like webe#ganteng, webe#12345</h5>
                     <div className="form">
                         <form action="" className="form__content">
                             <div className="form__box">
