@@ -38,7 +38,7 @@ interface DataResponse {
     response: Job[];
 }
 
-export default function jobs() {
+export default function Jobs() {
     const imageSources = [googleImg, amazonImg, facebookImg, figmaImg, msImg, twitterImg];
     const systemSources = ["Work From Home", "Work From Office", "Hybrid", "Remote"]
     const workTypeSources = ["Full-time", "Part-time", "Contract", "Freelance", "Outsource"];

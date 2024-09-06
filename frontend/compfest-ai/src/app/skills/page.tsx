@@ -302,7 +302,6 @@ export default function Skills() {
             <div ref={nextParallaxRef4} className="flex flex-col items-center justify-center text-center h-specific my-10">
                 <Parallax
                     speed={15}
-                    ref={nextParallaxRef}
                     className="flex items-center justify-center text-center font-restart text-5xl"
                 >
                     Welcome Aboard, {name}!
