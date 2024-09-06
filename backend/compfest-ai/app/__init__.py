@@ -6,9 +6,10 @@ from dotenv import load_dotenv
 
 def create_app():
    
-    env = os.getenv('FLASK_ENV', 'development')
+    env = os.getenv('FLASK_ENV', 'production')
     dotenv_path = f'.env.{env}'
 
+    print(dotenv_path)
     load_dotenv(dotenv_path)
 
     from app.config import DevelopmentConfig, ProductionConfig, Config

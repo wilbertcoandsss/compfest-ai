@@ -2,14 +2,23 @@
 
 set -e
 
-# COMMENT IN PROD
-echo "Activating venv"
+if [ -f ".env" ]; then
+  echo "Loading .env file..."
+  export $(cat .env | xargs)
+fi
+
+if [ ! -f "venv/bin/activate" ]; then
+  echo "Virtual environment not found! Exiting..."
+  exit 1
+fi
+
+echo "Activating virtual environment..."
 source venv/bin/activate
 
-echo "Exporting app.py to env"
-export FLASK_APP=${FLASK_APP:-./run.py}
+# export FLASK_APP=${FLASK_APP:-./run.py}
+# export FLASK_ENV=${FLASK_ENV:-development}
 
-ENV=${FLASK_ENV:-development} 
+echo "Running in environment: $FLASK_ENV"
 
 if [ ! -d "preloaded_model/" ]; then
   echo "Preloading model..."
@@ -18,16 +27,15 @@ else
   echo "Preloaded model exists, skipping preloading model..."
 fi
 
+if [ "$FLASK_ENV" == "development" ]; then
+  echo "Running tests (development mode)..."
+  flask go test
+fi
 
-# IMPORTANT: COMMENT OUT IN PROD
-flask go test
-
-
-# AirTunes is using my 5000
-if [ "$ENV" == "development" ]; then
-    echo "Starting Flask server in development mode..."
-    flask run --host=localhost --port=6969 #5000
+if [ "$FLASK_ENV" == "development" ]; then
+  echo "Starting Flask server in development mode on localhost:6969..."
+  flask run --host=localhost --port=6969
 else
-    echo "Starting Flask server in production mode..."
-    flask run --host=0.0.0.0 --port=3001
+  echo "Starting Flask server in production mode on 0.0.0.0:3001..."
+  flask run --host=0.0.0.0 --port=3001
 fi
