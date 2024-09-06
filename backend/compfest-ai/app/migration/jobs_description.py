@@ -69,7 +69,7 @@ def parse_data_for_embedding_v2(df) -> List[dict]:
     for idx, row in job_data.iterrows():
         skills_str = row.get('skills', '')
         print(f"Embedding {idx}/{data_len}")
-        job_data.loc[idx, 'skills'] = tokenizer_service.tokenize_and_infer_skills(skills_str)
+        # job_data.loc[idx, 'skills'] = tokenizer_service.tokenize_and_infer_skills(skills_str)
 
         jobs.append({
             CSV_TO_MODEL_MAPPING[col]: row[col] for col in job_data.columns
